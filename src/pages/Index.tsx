@@ -23,6 +23,7 @@ const Index = () => {
   const [favorites, setFavorites] = useState<number[]>([]);
   const [cart, setCart] = useState<number[]>([]);
   const [activeSection, setActiveSection] = useState('home');
+  const [selectedCategory, setSelectedCategory] = useState<string>('Все');
 
   const products: Product[] = [
     {
@@ -82,6 +83,12 @@ const Index = () => {
   const removeFromCart = (index: number) => {
     setCart((prev) => prev.filter((_, i) => i !== index));
   };
+
+  const categories = ['Все', ...Array.from(new Set(products.map((p) => p.category)))];
+  
+  const filteredProducts = selectedCategory === 'Все' 
+    ? products 
+    : products.filter((p) => p.category === selectedCategory);
 
   const favoriteProducts = products.filter((p) => favorites.includes(p.id));
   const cartProducts = cart.map((id) => products.find((p) => p.id === id)!);
@@ -265,13 +272,29 @@ const Index = () => {
             <h2 className="text-5xl font-heading font-black mb-4">
               НОВАЯ КОЛЛЕКЦИЯ
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground mb-8">
               Эксклюзивные дизайны для настоящих ценителей уличной культуры
             </p>
+            <div className="flex gap-3 justify-center flex-wrap">
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  variant={selectedCategory === category ? 'default' : 'outline'}
+                  className={`font-bold ${
+                    selectedCategory === category
+                      ? 'bg-black text-white hover:bg-black/90'
+                      : 'border-2 border-black text-black hover:bg-black hover:text-white'
+                  }`}
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product, index) => (
+            {filteredProducts.map((product, index) => (
               <Card
                 key={product.id}
                 className="group overflow-hidden border-2 hover:border-black transition-all duration-300 hover:shadow-xl"
