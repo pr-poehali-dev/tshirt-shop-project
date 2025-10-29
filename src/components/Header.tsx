@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
@@ -39,9 +40,17 @@ const Header = ({
   addToCart,
   removeFromCart,
 }: HeaderProps) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const favoriteProducts = products.filter((p) => favorites.includes(p.id));
   const cartProducts = cart.map((id) => products.find((p) => p.id === id)!);
   const totalPrice = cartProducts.reduce((sum, p) => sum + p.price, 0);
+
+  const menuItems = ['Главная', 'Каталог', 'О бренде', 'Доставка', 'Контакты'];
+
+  const handleMenuClick = (item: string) => {
+    setActiveSection(item.toLowerCase());
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-black text-white py-4 px-6 shadow-lg">
@@ -50,7 +59,7 @@ const Header = ({
           STREET WEAR
         </h1>
         <nav className="hidden md:flex gap-8">
-          {['Главная', 'Каталог', 'О бренде', 'Доставка', 'Контакты'].map(
+          {menuItems.map(
             (item) => (
               <button
                 key={item}
@@ -62,7 +71,15 @@ const Header = ({
             )
           )}
         </nav>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden text-white hover:bg-white/10"
+            onClick={() => setIsMenuOpen(true)}
+          >
+            <Icon name="Menu" size={24} />
+          </Button>
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 relative">
@@ -176,6 +193,25 @@ const Header = ({
           </Sheet>
         </div>
       </div>
+
+      <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+        <SheetContent side="left" className="bg-black text-white border-white/20">
+          <SheetHeader>
+            <SheetTitle className="text-2xl font-heading font-black text-white">МЕНЮ</SheetTitle>
+          </SheetHeader>
+          <nav className="mt-8 flex flex-col gap-4">
+            {menuItems.map((item) => (
+              <button
+                key={item}
+                onClick={() => handleMenuClick(item)}
+                className="text-left text-lg font-heading font-bold hover:text-accent transition-colors py-3 border-b border-white/10"
+              >
+                {item}
+              </button>
+            ))}
+          </nav>
+        </SheetContent>
+      </Sheet>
     </header>
   );
 };
