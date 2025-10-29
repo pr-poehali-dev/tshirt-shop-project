@@ -24,6 +24,7 @@ const Index = () => {
   const [cart, setCart] = useState<number[]>([]);
   const [activeSection, setActiveSection] = useState('home');
   const [selectedCategory, setSelectedCategory] = useState<string>('Все');
+  const [sortBy, setSortBy] = useState<string>('default');
 
   const products: Product[] = [
     {
@@ -86,9 +87,15 @@ const Index = () => {
 
   const categories = ['Все', ...Array.from(new Set(products.map((p) => p.category)))];
   
-  const filteredProducts = selectedCategory === 'Все' 
+  let filteredProducts = selectedCategory === 'Все' 
     ? products 
     : products.filter((p) => p.category === selectedCategory);
+
+  if (sortBy === 'price-asc') {
+    filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
+  } else if (sortBy === 'price-desc') {
+    filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
+  }
 
   const favoriteProducts = products.filter((p) => favorites.includes(p.id));
   const cartProducts = cart.map((id) => products.find((p) => p.id === id)!);
@@ -275,7 +282,7 @@ const Index = () => {
             <p className="text-lg text-muted-foreground mb-8">
               Эксклюзивные дизайны для настоящих ценителей уличной культуры
             </p>
-            <div className="flex gap-3 justify-center flex-wrap">
+            <div className="flex gap-3 justify-center flex-wrap items-center">
               {categories.map((category) => (
                 <Button
                   key={category}
@@ -290,6 +297,40 @@ const Index = () => {
                   {category}
                 </Button>
               ))}
+              <div className="w-px h-8 bg-border mx-2" />
+              <Button
+                onClick={() => setSortBy('default')}
+                variant={sortBy === 'default' ? 'default' : 'outline'}
+                className={`font-bold ${
+                  sortBy === 'default'
+                    ? 'bg-black text-white hover:bg-black/90'
+                    : 'border-2 border-black text-black hover:bg-black hover:text-white'
+                }`}
+              >
+                По умолчанию
+              </Button>
+              <Button
+                onClick={() => setSortBy('price-asc')}
+                variant={sortBy === 'price-asc' ? 'default' : 'outline'}
+                className={`font-bold ${
+                  sortBy === 'price-asc'
+                    ? 'bg-black text-white hover:bg-black/90'
+                    : 'border-2 border-black text-black hover:bg-black hover:text-white'
+                }`}
+              >
+                Дешевле
+              </Button>
+              <Button
+                onClick={() => setSortBy('price-desc')}
+                variant={sortBy === 'price-desc' ? 'default' : 'outline'}
+                className={`font-bold ${
+                  sortBy === 'price-desc'
+                    ? 'bg-black text-white hover:bg-black/90'
+                    : 'border-2 border-black text-black hover:bg-black hover:text-white'
+                }`}
+              >
+                Дороже
+              </Button>
             </div>
           </div>
 
