@@ -67,12 +67,12 @@ const Header = ({
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-black text-white py-4 px-6 shadow-lg">
+    <header className="sticky top-0 z-50 bg-black text-white py-3 sm:py-4 px-4 sm:px-6 shadow-lg">
       <div className="container mx-auto flex items-center justify-between">
-        <h1 className="text-3xl font-heading font-black tracking-tight">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-heading font-black tracking-tight">
           STREET WEAR
         </h1>
-        <nav className="hidden md:flex gap-8">
+        <nav className="hidden lg:flex gap-6 xl:gap-8">
           {menuItems.map(
             (item) => (
               <button
@@ -85,19 +85,19 @@ const Header = ({
             )
           )}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden text-white hover:bg-white/10"
+            className="lg:hidden text-white hover:bg-white/10"
             onClick={() => setIsMenuOpen(true)}
           >
-            <Icon name="Menu" size={24} />
+            <Icon name="Menu" className="w-5 h-5 sm:w-6 sm:h-6" />
           </Button>
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 relative">
-                <Icon name="Heart" size={24} />
+                <Icon name="Heart" className="w-5 h-5 sm:w-6 sm:h-6" />
                 {favorites.length > 0 && (
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-accent text-white">
                     {favorites.length}
@@ -150,7 +150,7 @@ const Header = ({
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 relative">
-                <Icon name="ShoppingCart" size={24} />
+                <Icon name="ShoppingCart" className="w-5 h-5 sm:w-6 sm:h-6" />
                 {cart.length > 0 && (
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-accent text-white">
                     {cart.length}

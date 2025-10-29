@@ -103,6 +103,7 @@
 
   body {
     @apply bg-background text-foreground font-body;
+    overflow-x: hidden;
   }
 
   h1,
@@ -112,5 +113,9 @@
   h5,
   h6 {
     @apply font-heading font-bold;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 }
