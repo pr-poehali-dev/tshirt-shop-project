@@ -6,8 +6,16 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ setActiveSection }: HeroSectionProps) => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setActiveSection(sectionId);
+  };
+
   return (
-    <section className="relative h-[600px] bg-black text-white overflow-hidden">
+    <section id="home" className="relative h-[600px] bg-black text-white overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10" />
       <img
         src="/placeholder.svg"
@@ -28,12 +36,13 @@ const HeroSection = ({ setActiveSection }: HeroSectionProps) => {
         </p>
         <div className="flex gap-4 animate-slide-up">
           <Button
-            onClick={() => setActiveSection('каталог')}
+            onClick={() => scrollToSection('catalog')}
             className="bg-accent hover:bg-accent/90 text-white text-lg px-8 py-6 h-auto font-bold"
           >
             Смотреть коллекцию
           </Button>
           <Button
+            onClick={() => scrollToSection('about')}
             variant="outline"
             className="border-2 border-white text-white hover:bg-white hover:text-black text-lg px-8 py-6 h-auto font-bold"
           >

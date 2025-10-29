@@ -3,7 +3,7 @@ import Icon from '@/components/ui/icon';
 
 const DeliverySection = () => {
   return (
-    <section className="py-20 px-6 bg-gray-50">
+    <section id="delivery" className="py-20 px-6 bg-gray-50">
       <div className="container mx-auto max-w-4xl">
         <h2 className="text-5xl font-heading font-black text-center mb-12">
           ДОСТАВКА И ОПЛАТА

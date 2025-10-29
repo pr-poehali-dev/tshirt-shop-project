@@ -45,10 +45,24 @@ const Header = ({
   const cartProducts = cart.map((id) => products.find((p) => p.id === id)!);
   const totalPrice = cartProducts.reduce((sum, p) => sum + p.price, 0);
 
-  const menuItems = ['Главная', 'Каталог', 'О бренде', 'Доставка', 'Контакты'];
+  const menuItems = [
+    { label: 'Главная', id: 'home' },
+    { label: 'Каталог', id: 'catalog' },
+    { label: 'О бренде', id: 'about' },
+    { label: 'Доставка', id: 'delivery' },
+    { label: 'Контакты', id: 'contacts' },
+  ];
 
-  const handleMenuClick = (item: string) => {
-    setActiveSection(item.toLowerCase());
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setActiveSection(sectionId);
+  };
+
+  const handleMenuClick = (sectionId: string) => {
+    scrollToSection(sectionId);
     setIsMenuOpen(false);
   };
 
@@ -62,11 +76,11 @@ const Header = ({
           {menuItems.map(
             (item) => (
               <button
-                key={item}
-                onClick={() => setActiveSection(item.toLowerCase())}
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
                 className="text-sm font-medium hover:text-accent transition-colors"
               >
-                {item}
+                {item.label}
               </button>
             )
           )}
@@ -202,11 +216,11 @@ const Header = ({
           <nav className="mt-8 flex flex-col gap-4">
             {menuItems.map((item) => (
               <button
-                key={item}
-                onClick={() => handleMenuClick(item)}
+                key={item.id}
+                onClick={() => handleMenuClick(item.id)}
                 className="text-left text-lg font-heading font-bold hover:text-accent transition-colors py-3 border-b border-white/10"
               >
-                {item}
+                {item.label}
               </button>
             ))}
           </nav>
